@@ -27,8 +27,6 @@ enum layers {
     _FUNCTION,
 };
 
-#define DE_DOTS RALT(DE_DOT)
-
 #define SYM      MO(_SYM)
 #define NAV      MO(_NAV)
 #define NUM      MO(_NUM)
@@ -69,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * Left Symbol Layer
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |  …   |  _   |  [   |  ]   |  ^   |                              |      |      |      |      |      |        |
+ * |        |  §   |  _   |  [   |  ]   |  ^   |                              |      |      |      |      |      |        |
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  \   |  /   |  {   |  }   |  *   |                              |      | Shift| Ctrl |  Alt |  GUI |        |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
@@ -80,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_SYM_LEFT] = LAYOUT(
-     XXXXXXX , DE_DOTS, DE_UNDS, DE_LBRC, DE_RBRC, DE_CIRC,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+     XXXXXXX , DE_SECT, DE_UNDS, DE_LBRC, DE_RBRC, DE_CIRC,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
      XXXXXXX , DE_BSLS, DE_SLSH, DE_LCBR, DE_RCBR, DE_ASTR,                                     XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXXXXXX,
      XXXXXXX , DE_HASH, DE_DLR , DE_PIPE, DE_TILD, DE_GRV , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  XXXXXXX, XXXXXXX, KC_ENT , _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
