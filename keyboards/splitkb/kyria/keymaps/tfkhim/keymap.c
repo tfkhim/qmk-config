@@ -32,6 +32,35 @@ enum layers {
 #define NUM      MO(_NUM)
 #define FKEYS    MO(_FUNCTION)
 
+/**
+ * Advice for dual-role keys
+ * =========================
+ *
+ * Do not combine keys and layers that are both used during fast
+ * typing. Fast typing normally has no clean sequences like:
+ *   btn1 down -> btn1 up -> btn2 down -> btn2 up
+ * It is often more a rolling over:
+ *   btn1 down -> btn2 down -> btn1 up -> btn2 up
+ *
+ * Combining space and shift into a dual-role key would be a pretty
+ * bad idea. If btn1 is the dual-role key the above sequence could
+ * mean one of two things:
+ *  - A space followed by a non-shifted btn2
+ *  - A shifted btn2
+ *
+ * Using "permissive hold" mode for btn1 would favour the space
+ * followed by non-shifted btn2 variant. Using the "hold on other
+ * key press" favors the shifted btn2 variant.
+ *
+ * But for space and shift there is no clear winner. Both variants
+ * occur frequently.
+ *
+ * A well working example is a combination of space and a navigation
+ * layer. You can use "permissive hold" mode which works well during
+ * fast typing. For navigation it isn't a big issue to press and
+ * release the navigation keys while the layer key is hold.
+ */
+
 #define GUI_ESC    MT(MOD_LGUI, KC_ESC)
 #define GUI_ADIA   MT(MOD_RGUI, DE_ADIA)
 #define CTL_ENT    MT(MOD_LCTL, KC_ENT)
@@ -168,3 +197,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 };
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        // Symbol layers are used during fast typing (e.g. for coding).
+        // Therefore, a roll over should prefer the symbol and not the
+        // delete or backspace.
+        case SYM_BSPC:
+        case SYM_DEL:
+            return true;
+        default:
+            return false;
+    }
+}
+
