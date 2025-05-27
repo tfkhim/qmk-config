@@ -12,21 +12,26 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs =
+    { self, nixpkgs, ... }:
     let
       supportedSystems = [ "x86_64-linux" ];
 
-      forSupportedSystems = generator:
+      forSupportedSystems =
+        generator:
         let
-          generateForSystem = system: generator {
-            inherit system;
-            pkgs = nixpkgs.legacyPackages.${system};
-          };
+          generateForSystem =
+            system:
+            generator {
+              inherit system;
+              pkgs = nixpkgs.legacyPackages.${system};
+            };
         in
         nixpkgs.lib.genAttrs supportedSystems generateForSystem;
     in
     {
-      devShells = forSupportedSystems ({ system, pkgs, ... }:
+      devShells = forSupportedSystems (
+        { system, pkgs, ... }:
         let
           lndir = "${pkgs.xorg.lndir}/bin/lndir";
           qmkBin = "${pkgs.qmk}/bin/qmk";
@@ -48,8 +53,9 @@
               build
             ];
           };
-        });
+        }
+      );
 
-      formatter = forSupportedSystems ({ pkgs, ... }: pkgs.nixpkgs-fmt);
+      formatter = forSupportedSystems ({ pkgs, ... }: pkgs.nixfmt-tree);
     };
 }
